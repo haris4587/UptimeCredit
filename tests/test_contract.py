@@ -79,3 +79,27 @@ def test_changed_status_snapshot_blocks_payout(direct_vm, direct_deploy, direct_
     claim = contract.get_claim(claim_id)
     assert claim["status"] == "BLOCKED"
     assert claim["payout_wei"] == "0"
+
+
+def test_covered_credit_is_deterministic_and_reserved(direct_vm, direct_deploy, direct_alice):
+    contract = deploy(direct_deploy)
+    contract.enroll(str(direct_alice), 10**18)
+    direct_vm.value = 2 * 10**18
+    contract.fund()
+    direct_vm.value = 0
+    now = int(time.time())
+    with direct_vm.prank(direct_alice):
+        claim_id = contract.claim(now - 3600, now - 1800)
+        contract.submit_evidence(
+            claim_id, "https://example.org/immutable/customer.txt",
+            hashlib.sha256(b"customer timeline").hexdigest(), "Customer timeline")
+    direct_vm.mock_web(r"example\.org/immutable/status\.txt", {"status": 200, "body": STATUS.decode()})
+    direct_vm.mock_web(r"example\.org/immutable/customer\.txt", {"status": 200, "body": "customer timeline"})
+    direct_vm.mock_llm(r"You adjudicate a SaaS SLA claim", '{"result":"COVERED","minutes":30}')
+    direct_vm.warp(datetime.fromtimestamp(now + 3700, timezone.utc).isoformat())
+    contract.resolve(claim_id)
+    c = contract.get_claim(claim_id)
+    assert c["status"] == "APPROVED", c["reason"]
+    assert c["credit_bps"] == 2500
+    assert c["payout_wei"] == str(25 * 10**16)
+    assert contract.get_config()["pool_wei"] == str(175 * 10**16)
