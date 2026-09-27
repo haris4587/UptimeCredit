@@ -1,0 +1,24 @@
+// Studionet deployment with a funded local account. Never commit the key.
+import { readFileSync, writeFileSync } from 'node:fs';
+import { createClient, createAccount } from 'genlayer-js';
+import { studionet } from 'genlayer-js/chains';
+import { TransactionStatus } from 'genlayer-js/types';
+import { createHash } from 'node:crypto';
+const key = process.env.GENLAYER_PRIVATE_KEY;
+if (!key || !/^0x[0-9a-fA-F]{64}$/.test(key)) throw Error('Set GENLAYER_PRIVATE_KEY to a funded Studionet test account');
+const account = createAccount(key);
+const client = createClient({chain: studionet, account});
+const code = readFileSync(new URL('../contracts/uptime_credit.py', import.meta.url),'utf8');
+const terms = 'Covered: complete unavailability of the enrolled SaaS service. Scheduled maintenance announced at least 24 hours ahead, customer-side connectivity faults, and third-party dependencies outside provider control are excluded. Conflicting material evidence blocks an automatic credit.';
+const statusUrl = process.env.STATUS_SNAPSHOT_URL;
+const statusSha = process.env.STATUS_SNAPSHOT_SHA256;
+if (!statusUrl?.startsWith('https://') || !/^[0-9a-f]{64}$/.test(statusSha||'')) throw Error('Set immutable STATUS_SNAPSHOT_URL and its exact response-byte STATUS_SNAPSHOT_SHA256');
+const args = [terms,createHash('sha256').update(terms).digest('hex'),statusUrl,statusSha,7,24,5,30,120,1000,2500,5000];
+const hash = await client.deployContract({code,args});
+console.log('Submitted deployment:',hash);
+const receipt = await client.waitForTransactionReceipt({hash,status:TransactionStatus.FINALIZED});
+if (receipt.statusName!==TransactionStatus.FINALIZED || receipt.resultName!=='SUCCESS') throw Error('Deployment did not succeed: '+receipt.statusName+' / '+receipt.txExecutionResultName);
+const address = receipt.txDataDecoded?.contractAddress ?? receipt.recipient;
+if (!address) throw Error('Finalized transaction missing contract address');
+writeFileSync(new URL('../deployment.json', import.meta.url),JSON.stringify({network:'studionet',chainId:61999,contractAddress:address,transactionHash:hash,termsSha256:args[1],statusUrl,statusSha256:statusSha},null,2)+'\n');
+console.log('Finalized contract:',address);

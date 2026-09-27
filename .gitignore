@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.next/
+.env
+.env.local
+.env.*.local
+.sites-runtime/
+.wrangler/
+.pytest_cache/
+__pycache__/
+artifacts/
+deployment.json
