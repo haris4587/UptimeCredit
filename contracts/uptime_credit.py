@@ -200,7 +200,7 @@ class UptimeCredit(gl.Contract):
                 try:
                     response = gl.nondet.web.get(url)
                     body = response.body
-                    if response.status_code != 200 or len(body) > 100000:
+                    if response.status != 200 or body is None or len(body) > 100000:
                         return {"result": "UNAVAILABLE", "minutes": 0}
                     if hashlib.sha256(body).hexdigest() != digest:
                         return {"result": "CHANGED", "minutes": 0}
@@ -216,7 +216,8 @@ class UptimeCredit(gl.Contract):
                       "SLA: " + terms + "\nIncident UTC seconds: " + str(start) + " to " + str(end) +
                       "\nVerified sources:\n" + "\n---\n".join(texts))
             try:
-                parsed = json.loads(gl.nondet.exec_prompt(prompt, response_format="json"))
+                answer = gl.nondet.exec_prompt(prompt, response_format="json")
+                parsed = json.loads(answer) if isinstance(answer, str) else answer
                 result = parsed.get("result", "INSUFFICIENT")
                 minutes = parsed.get("minutes", 0)
                 if result not in ("COVERED", "EXCLUDED", "CONFLICT", "INSUFFICIENT"):
