@@ -31,6 +31,8 @@ Fund a dedicated Studionet account through Studio. Serve a stable immutable stat
 
 A real end-to-end test requires two funded wallets, an immutable status snapshot and customer snapshot, a full response window, and finalized receipts for funding, enrollment, claim, evidence, resolve, and withdrawal. Record hashes and delivery verification in a separate run log. A local UI build or mocked contract test is not that test.
 
+`fixtures/demo-2026-09-28.json` supplies a clearly labeled **synthetic** 45-minute incident, public status and monitoring snapshots, exact response-byte SHA-256 commitments, and UTC timestamps for a Studionet rehearsal. The published files are only test fixtures, not evidence of a real outage. Recheck the served bytes before deploying or submitting them; the contract blocks resolution if either response changes or disappears. For a shorter rehearsal, set the constructor response window to one hour, then wait until the full hour has passed before resolving. The fixture does not assert that any deployment, funding, claim, or payment has occurred.
+
 ## Documentation consulted
 
 [Web Access](https://docs.genlayer.com/developers/intelligent-contracts/features/web-access) · [Equivalence Principle](https://docs.genlayer.com/developers/intelligent-contracts/equivalence-principle) · [Value Transfers](https://docs.genlayer.com/developers/intelligent-contracts/features/value-transfers) · [Transaction Context](https://docs.genlayer.com/developers/intelligent-contracts/features/transaction-context) · [SDK](https://docs.genlayer.com/api-references/genlayer-js) · [Studionet](https://docs.genlayer.com/developers/networks)
