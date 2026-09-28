@@ -103,3 +103,38 @@ def test_covered_credit_is_deterministic_and_reserved(direct_vm, direct_deploy, 
     assert c["credit_bps"] == 2500
     assert c["payout_wei"] == str(25 * 10**16)
     assert contract.get_config()["pool_wei"] == str(175 * 10**16)
+
+
+@pytest.mark.parametrize("url", [
+    "https://localhost/status", "https://127.0.0.1/status",
+    "https://service.internal/status", "https://example.org:8443/status",
+    "https://user@example.org/status", "https:///status",
+])
+def test_private_or_malformed_source_rejected(direct_vm, direct_deploy, direct_alice, url):
+    contract = deploy(direct_deploy)
+    contract.enroll(str(direct_alice), 10**18)
+    now = int(time.time())
+    with direct_vm.prank(direct_alice):
+        claim_id = contract.claim(now - 3600, now - 1800)
+        with direct_vm.expect_revert("invalid evidence"):
+            contract.submit_evidence(claim_id, url, hashlib.sha256(b"x").hexdigest(), "Unsafe URL")
+
+
+def test_conflicting_sources_block_credit(direct_vm, direct_deploy, direct_alice):
+    contract = deploy(direct_deploy)
+    contract.enroll(str(direct_alice), 10**18)
+    now = int(time.time())
+    with direct_vm.prank(direct_alice):
+        claim_id = contract.claim(now - 3600, now - 1800)
+        contract.submit_evidence(claim_id, "https://example.org/immutable/customer.txt",
+                                 hashlib.sha256(b"customer timeline").hexdigest(), "Customer timeline")
+    contract.submit_evidence(claim_id, "https://example.org/immutable/provider.txt",
+                             hashlib.sha256(b"provider timeline").hexdigest(), "Provider timeline")
+    direct_vm.mock_web(r"example\.org/immutable/status\.txt", {"status": 200, "body": STATUS.decode()})
+    direct_vm.mock_web(r"example\.org/immutable/customer\.txt", {"status": 200, "body": "customer timeline"})
+    direct_vm.mock_web(r"example\.org/immutable/provider\.txt", {"status": 200, "body": "provider timeline"})
+    direct_vm.mock_llm(r"You adjudicate a SaaS SLA claim", '{"result":"CONFLICT","minutes":0}')
+    direct_vm.warp(datetime.fromtimestamp(now + 3700, timezone.utc).isoformat())
+    contract.resolve(claim_id)
+    assert contract.get_claim(claim_id)["status"] == "BLOCKED"
+    assert contract.get_claim(claim_id)["reason"] == "CONFLICT"
