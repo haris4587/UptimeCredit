@@ -1,0 +1,7 @@
+UPTIMECREDIT SYNTHETIC TEST EVIDENCE — NOT A REAL SERVICE INCIDENT
+Source: demonstration provider status snapshot
+Service: UptimeCredit demo SaaS
+Incident: 2026-09-28 12:00:00 UTC to 2026-09-28 12:45:00 UTC
+Impact: the entire demo SaaS service was unavailable to customers for 45 minutes.
+Cause: an internal application deployment error. This was not scheduled maintenance and was not caused by customer connectivity or a third-party dependency.
+Resolution: service was restored at 2026-09-28 12:45:00 UTC.
