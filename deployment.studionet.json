@@ -1,7 +1,7 @@
 {
   "network": "studionet",
   "chainId": 61999,
-  "status": "claim_open_waiting_for_response_deadline",
+  "status": "claim_blocked_insufficient",
   "contractAddress": "0xd7B8240253A1DB2f9e5f2F60660dAAfBE0924bfe",
   "deploymentTransaction": "0x17ffb505fa1ed2876553f85ab3f2d0b280bfb5e4cdc28a11bad4841734a71670",
   "provider": "0xe7A6404Cd425e05Fa604Fb716473e9ef8F3ac6F0",
@@ -18,5 +18,14 @@
     "claim": "0xdcd45eb3f683c8b29e58b1f040cdf8273571da024da887bf0aac4e77be21f8c1",
     "customerEvidence": "0xe3f8bf0c7b30cf57d9f9fe5b0f14b3c068829b01210161e34a0baef2d39c9459",
     "providerEvidence": "0xe91514f9437c75277fe40b6dd25742db52484eaa286a51d58ca6c47fa7b9a646"
+  },
+  "resolution": {
+    "status": "BLOCKED",
+    "reason": "INSUFFICIENT",
+    "coveredMinutes": 0,
+    "payoutWei": "0",
+    "fullConsensus": true,
+    "transactionHash": null,
+    "note": "Studio showed resolve FINALIZED; get_claim(1) then returned this finalized state. Full resolution transaction hash was not recovered after the browser connection stalled."
   }
 }
