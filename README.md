@@ -4,7 +4,7 @@ Evidence-bound SaaS service credits on GenLayer. A provider publishes an immutab
 
 ## Status
 
-The contract is [deployed on Studionet](https://explorer-studio.genlayer.com/address/0xd7B8240253A1DB2f9e5f2F60660dAAfBE0924bfe), and its deployment, funding, enrollment, claim, and both evidence transactions are finalized. The synthetic claim is still **OPEN** until the one-hour response window ends; no resolution or payout is asserted yet. Exact transaction hashes and the UTC deadline are recorded in `deployment.studionet.json`. The app loads this demo deployment by default, and visitors may enter another address.
+The contract is [deployed on Studionet](https://explorer-studio.genlayer.com/address/0xd7B8240253A1DB2f9e5f2F60660dAAfBE0924bfe). Deployment, funding, enrollment, claim, and both evidence transactions finalized. After the one-hour response period, a full-consensus `resolve(1)` transaction finalized and `get_claim(1)` returned **BLOCKED / INSUFFICIENT**, zero covered minutes and zero payout. The snapshots explicitly describe a synthetic event rather than a real SaaS outage; do not present this run as an approved credit or a paid claim. The full resolution transaction hash could not be recovered after Studio's browser connection stalled. Verified earlier transaction hashes and the outcome are recorded in `deployment.studionet.json`. The app loads this demo deployment by default, and visitors may enter another address.
 
 ## Contract workflow
 
