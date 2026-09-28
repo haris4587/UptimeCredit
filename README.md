@@ -21,7 +21,7 @@ The on-chain prompt treats page text as untrusted data. Coverage judgment and ve
 
 - Node 22+, Python 3.12+.
 - Install JS dependencies with `pnpm install` and run `pnpm build` or `pnpm dev`.
-- For contract tests: `pip install genlayer-test genvm-linter pytest`, then `bash scripts/test-contract.sh`. The helper resolves the pinned contract SDK through the GenVM linter. Five direct-mode tests cover access control, duplicate claims, evidence limits, premature resolution, changed sources, and a covered credit with pool reservation.
+- For contract tests: `pip install genlayer-test genvm-linter pytest`, then `bash scripts/test-contract.sh`. The helper resolves the contract SDK through the GenVM linter. Twelve direct-mode cases cover access control, duplicate claims, evidence limits, premature resolution, changed and conflicting sources, unsafe URLs, and a covered credit with pool reservation.
 - The web app uses `genlayer-js@1.1.8` on stable Studionet (chain 61999), a browser EIP-1193 wallet for writes, and `TransactionHashVariant.LATEST_FINAL` for reads. It does not store a signing key.
 - Set `NEXT_PUBLIC_CONTRACT_ADDRESS` at build time to pin a deployment, or enter an address in the UI. A browser-local address preference is only a convenience and never claims a deployment exists.
 
