@@ -7,6 +7,7 @@ from genlayer import *
 from dataclasses import dataclass
 import hashlib
 import json
+import re
 from datetime import datetime, timezone
 
 
@@ -104,7 +105,18 @@ class UptimeCredit(gl.Contract):
         return len(value) == 64 and all(c in "0123456789abcdef" for c in value)
 
     def _url(self, value: str) -> bool:
-        return value.startswith("https://") and len(value) <= 300 and "@" not in value.split("/", 3)[2]
+        if not value.startswith("https://") or len(value) > 300:
+            return False
+        host = value[8:].split("/", 1)[0].lower()
+        # Accept public DNS names only. Reject credentials, ports, IP literals,
+        # local names and malformed authorities before asking validators to fetch.
+        if not re.fullmatch(r"[a-z0-9-]+(?:\.[a-z0-9-]+)+", host):
+            return False
+        if host.endswith((".local", ".internal", ".localhost", ".test", ".invalid")):
+            return False
+        if all(part.isdigit() for part in host.split(".")):
+            return False
+        return True
 
     def _only_provider(self):
         if gl.message.sender_address != self.provider:
