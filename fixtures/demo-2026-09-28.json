@@ -1,0 +1,12 @@
+{
+  "purpose": "Synthetic Studionet test only; no real SaaS outage is asserted",
+  "incidentStart": 1790596800,
+  "incidentEnd": 1790599500,
+  "statusUrl": "https://uptimecredit.itzanza2.chatgpt.site/evidence/demo-2026-09-28-status.txt",
+  "statusSha256": "0b47955180b814cdbe4a0aeaf068019e238e9491f6390230cf31ce99b2986fee",
+  "customerEvidenceUrl": "https://uptimecredit.itzanza2.chatgpt.site/evidence/demo-2026-09-28-monitor.txt",
+  "customerEvidenceSha256": "c3e67f6bbca04c51e499a6b7ed7fb649ced7c9db0644560cfa85cecb10f20210",
+  "suggestedResponseHours": 1,
+  "expectedCoveredMinutes": 45,
+  "expectedCreditBps": 2500
+}
