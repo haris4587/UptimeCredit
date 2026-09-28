@@ -9,7 +9,7 @@ type Config = { provider:string; terms:string; terms_sha256:string; status_url:s
 type Claim = { customer:string; incident_start:number; incident_end:number; response_deadline:number; status:string; customer_count:number; provider_count:number; covered_minutes:number; credit_bps:number; payout_wei:string; reason:string };
 type Evidence = { owner:string; url:string; sha256:string; label:string };
 declare global { interface Window { ethereum?: {request:(arg:{method:string;params?:unknown[]})=>Promise<unknown>} } }
-const DEFAULT = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || "";
+const DEFAULT = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || "0xd7B8240253A1DB2f9e5f2F60660dAAfBE0924bfe";
 const short = (s:string) => s ? s.slice(0,6)+"…"+s.slice(-4) : "—";
 const gen = (s:string) => (Number(BigInt(s)*10000n/10n**18n)/10000).toLocaleString();
 const seconds = (s:string) => Math.floor(new Date(s).getTime()/1000);
@@ -20,7 +20,10 @@ export default function Home(){
   const [address,setAddress]=useState(DEFAULT),[wallet,setWallet]=useState(""),[config,setConfig]=useState<Config|null>(null);
   const [claimId,setClaimId]=useState(""),[claim,setClaim]=useState<Claim|null>(null),[evidence,setEvidence]=useState<Evidence[]>([]);
   const [message,setMessage]=useState(""),[tx,setTx]=useState(""),[busy,setBusy]=useState(false);
-  useEffect(()=>{if(!DEFAULT) setAddress(localStorage.getItem("uptimecredit-address")||"");},[]);
+  useEffect(()=>{void load();
+  // The default deployment is loaded once on mount. Visitors can still choose another address.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
   async function sdk(write=false){
     const {createClient}=await import("genlayer-js");
     const {studionet}=await import("genlayer-js/chains");
