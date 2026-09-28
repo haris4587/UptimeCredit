@@ -1,0 +1,5 @@
+UPTIMECREDIT SYNTHETIC TEST EVIDENCE — NOT A REAL SERVICE INCIDENT
+Source: demonstration customer monitoring snapshot
+Service: UptimeCredit demo SaaS
+Monitor checks: the service returned no successful application response from 2026-09-28 12:00:00 UTC through 2026-09-28 12:45:00 UTC.
+Independent observation: a successful application response returned at 2026-09-28 12:45:00 UTC. The outage lasted 45 minutes.
