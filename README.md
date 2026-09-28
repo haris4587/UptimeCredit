@@ -4,7 +4,7 @@ Evidence-bound SaaS service credits on GenLayer. A provider publishes an immutab
 
 ## Status
 
-The source is implemented and the website is available separately. **No contract address or live claim transaction is asserted in this repository until a finalized Studionet run has been recorded in `deployment.json`.** The web app accepts a deployed address so it can be used without rebuilding after deployment.
+The contract is [deployed on Studionet](https://explorer-studio.genlayer.com/address/0xd7B8240253A1DB2f9e5f2F60660dAAfBE0924bfe), and its deployment, funding, enrollment, claim, and both evidence transactions are finalized. The synthetic claim is still **OPEN** until the one-hour response window ends; no resolution or payout is asserted yet. Exact transaction hashes and the UTC deadline are recorded in `deployment.studionet.json`. The app loads this demo deployment by default, and visitors may enter another address.
 
 ## Contract workflow
 
