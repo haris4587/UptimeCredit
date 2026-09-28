@@ -1,0 +1,22 @@
+{
+  "network": "studionet",
+  "chainId": 61999,
+  "status": "claim_open_waiting_for_response_deadline",
+  "contractAddress": "0xd7B8240253A1DB2f9e5f2F60660dAAfBE0924bfe",
+  "deploymentTransaction": "0x17ffb505fa1ed2876553f85ab3f2d0b280bfb5e4cdc28a11bad4841734a71670",
+  "provider": "0xe7A6404Cd425e05Fa604Fb716473e9ef8F3ac6F0",
+  "customer": "0x850610B3245f8Bb44E9D5581F2D5DBc9F55C60F2",
+  "claimId": 1,
+  "incidentStart": 1790596800,
+  "incidentEnd": 1790599500,
+  "responseDeadline": 1790608678,
+  "statusUrl": "https://uptimecredit.itzanza2.chatgpt.site/evidence/demo-2026-09-28-status.txt",
+  "statusSha256": "0b47955180b814cdbe4a0aeaf068019e238e9491f6390230cf31ce99b2986fee",
+  "transactions": {
+    "fund": "0xa4e3509db7f68158c98f76371953e372860020227c311e1702b53800177a6a68",
+    "enroll": "0xe6e3bf8510097f6cfa4cbef57a5e1cae9dd9db04d6c22f16d1a5450547962e94",
+    "claim": "0xdcd45eb3f683c8b29e58b1f040cdf8273571da024da887bf0aac4e77be21f8c1",
+    "customerEvidence": "0xe3f8bf0c7b30cf57d9f9fe5b0f14b3c068829b01210161e34a0baef2d39c9459",
+    "providerEvidence": "0xe91514f9437c75277fe40b6dd25742db52484eaa286a51d58ca6c47fa7b9a646"
+  }
+}
